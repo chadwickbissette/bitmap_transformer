@@ -1,4 +1,4 @@
-bitmap.js reads a bitmap containing a pixel array of any size and creates a new bitmap file that shifts colors present in the original bitmap to another color already present in the original bitmap file.
+bitmap.js reads a bitmap containing a color-palette, and a pixel array of any size. It creates a new bitmap file that shifts colors present in the original bitmap to another color already present in the original bitmap file. The color shift transform first creates a "colorsPresent" array containing a list of all palette index values that were referenced in the original bitmap pixel array. The transform loops through each pixel in the pixel array, looks up the index of the current palette reference value in colorsPresent, and then changes (shifts) the palette reference value of that pixel to the next value in the colorsPresent array. If the original palette reference was the last element of the colorsPresent array, the palette reference value is reset to the value at colorsPresent[0].
 
 
 ORIGINAL ASSIGNMENT TEXT--
