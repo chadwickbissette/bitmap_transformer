@@ -1,26 +1,35 @@
-'use strict'
+'use strict';
 
 var fs = require('fs');
 var transform = require(__dirname + '/lib/transform.js');
 var fileName = 'bitmap1.bmp';
 var transformedFileName = 'bitmap_tranformed.bmp';
 
-fs.readFile(fileName, function (err, data) {
-  if (err) throw err;
+fs.readFile(fileName, function(err, data) {
+  if (err) {
+    throw err;
+  }
 
   // READ META DATA FROM BITMAP
+
   var pixArrOffset = data.readUInt32LE(10); //Byte offset of pixel array in bitmap
   var bytesPerPixel = data.readUInt16LE(28)/8;
   var pixArrWidth = data.readInt32LE(18);
   var pixArrHeight = data.readInt32LE(22);
   var pixArrBytes = pixArrWidth * pixArrHeight * bytesPerPixel;
 
-  // TRANFORM PIXEL ARRAY
+  // TRANSFORM PIXEL ARRAY
+
   var transformedBuffer = transform(data, pixArrBytes, pixArrOffset);
 
   // WRITE TRANSFORMED PIXEL ARRAY INTO NEW BITMAP FILE
-  fs.writeFile('bitmap_tranformed.bmp', transformedBuffer, function (err){
-    if (err) throw err;
-    if (!err) console.log('Successfully transformed ' + fileName + ' into ' + transformedFileName + '!');
+
+  fs.writeFile('bitmap_tranformed.bmp', transformedBuffer, function(err) {
+    if (err) {
+      throw err;
+    }
+    if (!err) {
+      console.log('Transformed ' + fileName + ' into ' + transformedFileName + '!');
+    }
   });
 });
